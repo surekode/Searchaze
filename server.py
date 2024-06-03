@@ -18,11 +18,14 @@ def load_api_keys(file_path):
         for line in file:
             key, value = line.strip().split('=')
             keys[key] = value
+    print("Loaded API keys:", keys)  # Add this line for debugging
     return keys
 
 api_keys = load_api_keys('api_key.txt')
-openai.api_key = api_keys['sk-proj-JpTDWmGTmWAd9uHcftceT3BlbkFJGDBDxlIP6T1wrk7Sxzqr']
-serpapi_key = api_keys['de29636d7312915e1b7cc498cf4710b20e45d78ae4b7e22fbc9ae23cc8295f71']
+print("API keys dictionary:", api_keys)  # Add this line for debugging
+openai.api_key = api_keys.get('sk-proj-JpTDWmGTmWAd9uHcftceT3BlbkFJGDBDxlIP6T1wrk7Sxzqr', '')  # Modify this line
+serpapi_key = api_keys.get('52c0d7c358e91bfe67ddda32575b06889327245b7a4db8eecbfe3fb1c36b750a', '')  # Modify this line
+
 
 @app.route('/')
 def index():
@@ -31,9 +34,6 @@ def index():
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
-    if not query.strip():
-        flash("Query cannot be empty. Please enter a search term.")
-        return render_template('index.html')
     try:
         search_results = fetch_search_results(query)
         summary = summarize_results(search_results)
@@ -50,6 +50,7 @@ def search():
         flash("An unexpected error occurred. Please try again.")
         return render_template('index.html')
     return render_template('results.html', query=query, summary=summary, results=search_results)
+
 
 def fetch_search_results(query):
     url = f"https://serpapi.com/search.json?q={query}&api_key={serpapi_key}"
