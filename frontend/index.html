@@ -1,20 +1,30 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Engine</title>
+    <title>Search Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Search Engine</h1>
-    <form id="searchForm">
-        <input type="text" id="searchInput" placeholder="Enter your search query">
-        <button type="submit">Search</button>
-    </form>
-    <div id="searchResults"></div>
-
-    <script src="script.js"></script>
+    <div class="container mt-5">
+        <h1 class="text-center">Search Application</h1>
+        <form action="/search" method="POST">
+            <div class="form-group">
+                <label for="query">Enter your search query:</label>
+                <input type="text" class="form-control" id="query" name="query" placeholder="Search...">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-warning mt-3">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>

@@ -1,18 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Search Results for "{{ query }}"</h1>
-    <p>{{ summary }}</p>
-    <ul>
-        {% for result in results %}
-            <li>{{ result }}</li>
-        {% endfor %}
-    </ul>
-    <a href="/">Back to search</a>
+    <div class="container mt-5">
+        <h1 class="text-center">Search Results for "{{ query }}"</h1>
+        <h2>Summary</h2>
+        <p>{{ summary }}</p>
+        <h2>Results</h2>
+        <ul class="list-group">
+            {% for result in results %}
+                <li class="list-group-item">{{ result }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-secondary mt-3">New Search</a>
+    </div>
 </body>
 </html>

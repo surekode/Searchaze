@@ -31,12 +31,23 @@ def index():
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form['query']
+    if not query.strip():
+        flash("Query cannot be empty. Please enter a search term.")
+        return render_template('index.html')
     try:
         search_results = fetch_search_results(query)
         summary = summarize_results(search_results)
+    except requests.exceptions.RequestException as e:
+        logger.error(f"HTTP error occurred: {e}")
+        flash("An error occurred while fetching search results. Please check your internet connection and try again.")
+        return render_template('index.html')
+    except openai.error.OpenAIError as e:
+        logger.error(f"OpenAI error occurred: {e}")
+        flash("An error occurred while processing the search results. Please try again later.")
+        return render_template('index.html')
     except Exception as e:
-        logger.error(f"Error fetching or summarizing search results: {e}")
-        flash("An error occurred while fetching search results. Please try again.")
+        logger.error(f"Unexpected error: {e}")
+        flash("An unexpected error occurred. Please try again.")
         return render_template('index.html')
     return render_template('results.html', query=query, summary=summary, results=search_results)
 
