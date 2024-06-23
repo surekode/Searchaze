@@ -27,7 +27,7 @@ openai.api_key = api_keys.get('sk-proj-JpTDWmGTmWAd9uHcftceT3BlbkFJGDBDxlIP6T1wr
 serpapi_key = api_keys.get('52c0d7c358e91bfe67ddda32575b06889327245b7a4db8eecbfe3fb1c36b750a', '')  # Modify this line
 
 
-@app.route('/')
+@app.route('/')  
 def index():
     return render_template('index.html')
 
